@@ -21,7 +21,7 @@
   --fg-50: rgba(255, 255, 255, 0.5);
   --fg-30: rgba(255, 255, 255, 0.3);
   --fg-20: rgba(255, 255, 255, 0.2);
-  --muted: #666667;
+  --muted: #8a8a8b; /* brief: #666667 (3.2:1) — lightened to 5.3:1 on --bg for readability */
 
   /* easing */
   --o2: cubic-bezier(0.25, 0.46, 0.45, 0.94);   /* quad out — hovers, fades */
@@ -268,7 +268,7 @@ ol {
 .nav-link {
   display: block;
   margin: 0 var(--nav-gap);
-  opacity: 0.3;
+  opacity: 0.55; /* brief: 0.3 (2.7:1) — raised to about 6:1 on --bg for readability */
   transition: opacity var(--d-hover) var(--o2);
 }
 

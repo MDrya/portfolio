@@ -53,8 +53,11 @@ for (const file of walk(imagesDir).filter((f) => /\.(jpe?g|png)$/i.test(f))) {
   const fallback = isPng
     ? await base().png({ compressionLevel: 9, palette: true }).toBuffer()
     : await base().jpeg({ quality: 80, mozjpeg: true }).toBuffer();
+  // Replace only for a real saving (10%+). A file this script already optimised shrinks
+  // by a percent or two on each re-encode, and rewriting it every run would slowly
+  // degrade it — this keeps repeated runs harmless.
   let fallbackSize = original.length;
-  if (fallback.length < original.length) {
+  if (fallback.length < original.length * 0.9) {
     fs.writeFileSync(file, fallback);
     savedBytes += original.length - fallback.length;
     fallbackSize = fallback.length;
@@ -62,7 +65,12 @@ for (const file of walk(imagesDir).filter((f) => /\.(jpe?g|png)$/i.test(f))) {
 
   let webpSize = null;
   if (rule.webp !== false) {
-    const webp = await base().webp({ quality: 78, effort: 5 }).toBuffer();
+    // detailed photos can exceed the budget at the default quality: step down until they fit
+    let webp;
+    for (const quality of [78, 70, 62, 54]) {
+      webp = await base().webp({ quality, effort: 5 }).toBuffer();
+      if (webp.length <= rule.budget) break;
+    }
     // a WebP that isn't smaller is pointless — serve the fallback instead
     const webpFile = file.replace(/\.(jpe?g|png)$/i, '.webp');
     if (webp.length < fallbackSize) {

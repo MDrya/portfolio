@@ -42,30 +42,67 @@
   margin-left: 0.35em;
 }
 
-/* --- crosshairs --------------------------------------------------------- */
+/* --- legibility scrim ---------------------------------------------------
+   A light darkening over the full-screen cover so white text stays readable on bright
+   photos. It fades with the UI (so the cover itself never changes abruptly during the
+   hand-off to a project) and is off in strip mode, where the background is dark anyway. */
+.page--home::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0.16) 70%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 600ms var(--o2);
+}
+
+.page--home.is-in:not(.is-strip)::before {
+  opacity: 1;
+}
+
+/* --- crosshairs ---------------------------------------------------------
+   The side ones are buttons (previous / next) with a 44px hit area around the 22px
+   icon; the centre one is the strip-mode reticle. The wrapper scales / slides (CSS),
+   the icon inside rotates (JS). */
 .h-cross {
   position: absolute;
   top: 50%;
-  margin-top: -11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-top: -22px;
   color: var(--fg);
-  pointer-events: none;
   transform: scale(0);
   transition:
     transform var(--d-reveal) var(--o6),
     opacity var(--d-reveal) var(--o6);
 }
 
+.h-cross-icon {
+  will-change: transform;
+}
+
 .h-cross--l {
-  left: var(--cross-inset);
+  left: calc(var(--cross-inset) - 11px);
 }
 
 .h-cross--r {
-  right: var(--cross-inset);
+  right: calc(var(--cross-inset) - 11px);
 }
 
-.h-cross--c {
+.page-ui > .h-cross--c {
   left: 50%;
-  margin-left: -11px;
+  margin-left: -22px;
+  pointer-events: none;
+}
+
+/* not clickable while hidden (before the intro, and in strip mode) */
+.page--home:not(.is-in) .h-cross,
+.page--home.is-strip .h-cross--l,
+.page--home.is-strip .h-cross--r {
+  pointer-events: none;
 }
 
 .page--home.is-in .h-cross--l,

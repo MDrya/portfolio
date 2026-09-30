@@ -19,10 +19,15 @@ import { store } from '../store.js';
 
 const pad = (n) => String(n).padStart(2, '0');
 
-const cross = (modifier) => `
-  <svg class="h-cross h-cross--${modifier}" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+const crossIcon = `
+  <svg class="h-cross-icon" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
     <path d="M11 0v22M0 11h22" stroke="currentColor" stroke-width="1.5" />
   </svg>`;
+
+// side crosshairs are buttons (previous / next project); the centre one is the reticle
+const crossButton = (side, label) =>
+  `<button class="h-cross h-cross--${side}" type="button" aria-label="${label}">${crossIcon}</button>`;
+const reticle = `<div class="h-cross h-cross--c" aria-hidden="true">${crossIcon}</div>`;
 
 const isTyping = (el) => el.closest?.('input, textarea, select, [contenteditable]');
 
@@ -37,8 +42,8 @@ export class Home extends Page {
 
   ui() {
     return `
-      <h1 class="sr-only">Selected work — use the left and right arrow keys, or the project buttons, to browse</h1>
-      ${cross('l')}${cross('r')}${cross('c')}
+      <h1 class="sr-only">Selected work — use the previous and next buttons, the arrow keys, or the project buttons to browse</h1>
+      ${crossButton('l', 'Previous project')}${crossButton('r', 'Next project')}${reticle}
       <div class="h-titles" aria-live="polite"></div>
       <div class="h-pagination"></div>
       <nav class="h-thumbs" aria-label="Projects">
@@ -78,6 +83,14 @@ export class Home extends Page {
     this.updateThumbs(this.index);
 
     this.slider = new Slider(this.app.webgl, projects, { index: this.index });
+
+    // crosshair buttons: left = previous project, right = next project
+    this.crossPrev = this.el.querySelector('.h-cross--l');
+    this.crossNext = this.el.querySelector('.h-cross--r');
+    this.crossIcons = [this.crossPrev, this.crossNext].map((b) => b.querySelector('.h-cross-icon'));
+    this.crossTurns = 0; // quarter turns so far: + → × → + per project change
+    this.crossPrev.addEventListener('click', () => this.prev());
+    this.crossNext.addEventListener('click', () => this.next());
 
     this.onKey = this.onKey.bind(this);
     this.onWheel = this.onWheel.bind(this);
@@ -136,6 +149,7 @@ export class Home extends Page {
     this.slider.goTo(index, dir);
     this.counter.set(index);
     this.updateThumbs(index);
+    this.spinCrosses(dir);
 
     // Separate title elements, so rapid presses never leave text half-swapped.
     const hadFocus = document.activeElement === this.titleEl;
@@ -145,11 +159,33 @@ export class Home extends Page {
     if (hadFocus) this.titleEl.focus();
   }
 
+  /**
+   * Every project change turns both side crosshairs a quarter turn in the direction of
+   * travel: + rotates into ×, holds there while the covers slide, then finishes as +.
+   */
+  spinCrosses(dir) {
+    const from = this.crossTurns * 90;
+    this.crossTurns += dir || 1;
+    const to = this.crossTurns * 90;
+
+    gsap.killTweensOf(this.crossIcons);
+    gsap
+      .timeline()
+      .to(this.crossIcons, { rotation: (from + to) / 2, duration: 0.5, ease: 'o6' }) // ×
+      .to(this.crossIcons, { rotation: to, duration: 0.7, ease: 'o6' }, 0.7); // + again
+  }
+
   // --- strip mode ---------------------------------------------------------------
+
+  /** The side crosshairs are hidden in strip mode, so they shouldn't take focus either. */
+  setCrossButtons(enabled) {
+    this.crossPrev.disabled = this.crossNext.disabled = !enabled;
+  }
 
   enterStrip() {
     if (this.slider.mode === 'strip') return;
     this.slider.enterStrip();
+    this.setCrossButtons(false);
     this.el.classList.add('is-strip');
     this.dropTitles();
     this.counter.leave();
@@ -162,6 +198,7 @@ export class Home extends Page {
     this.index = index;
     store.activeIndex = index;
     this.slider.exitStrip(index);
+    this.setCrossButtons(true);
     this.el.classList.remove('is-strip');
 
     this.updateThumbs(index);
@@ -324,6 +361,7 @@ export class Home extends Page {
     window.removeEventListener('keydown', this.onKey);
     window.removeEventListener('wheel', this.onWheel);
     gsap.killTweensOf(this.thumbImgs);
+    gsap.killTweensOf(this.crossIcons);
     this.slider.destroy();
     super.destroy();
   }

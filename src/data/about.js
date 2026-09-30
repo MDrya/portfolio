@@ -51,10 +51,10 @@ export const about = [
     type: 'links',
     title: 'Get In Touch',
     links: [
-      // TODO: replace with real addresses
-      { label: 'hello@example.com', href: 'mailto:hello@example.com' },
-      { label: 'Instagram', href: 'https://instagram.com/' },
-      { label: 'LinkedIn', href: 'https://www.linkedin.com/' },
+      { label: 'daivarasendrya1680@gmail.com', href: 'mailto:daivarasendrya1680@gmail.com' },
+      // TODO: add your profile URLs, then uncomment
+      // { label: 'Instagram', href: 'https://instagram.com/<your-handle>' },
+      // { label: 'LinkedIn', href: 'https://www.linkedin.com/in/<your-handle>' },
     ],
   },
   {
@@ -65,6 +65,8 @@ export const about = [
       'Design & development: MDR.',
       'Layout & interaction study inspired by camillemormal.com',
       'Typeface: Inter Tight (SIL Open Font License).',
+      // remove this line once your own project photos are in public/images
+      'Stand-in photography from Unsplash — see /images/CREDITS.md.',
     ],
   },
 ];

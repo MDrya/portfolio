@@ -77,7 +77,7 @@ const list = [
   },
   {
     slug: 'kaos-kmsr',
-    title: 'Kaos KMSR',
+    title: 'Anatomy of ITB',
     heroTitle: ['Pre-Order', 'For A Student Guild'],
     tagline: 'Merch, made simple to buy',
     role: 'Designer & Developer',
@@ -87,8 +87,8 @@ const list = [
     gallery: [
       { group: 1, src: '/images/kaos-kmsr/01.jpg', w: 1800, h: 1012, bg: '#6f766c', alt: 'Printing a shirt by hand, wearing gloves' },
       { group: 1, src: '/images/kaos-kmsr/02.jpg', w: 1800, h: 1012, bg: '#696b62', alt: 'Working at a printing machine' },
-      { group: 2, src: '/images/kaos-kmsr/03.jpg', w: 1200, h: 1500, bg: '#6f7071', alt: 'White printed T-shirt, worn' },
-      { group: 2, src: '/images/kaos-kmsr/04.jpg', w: 1200, h: 1500, bg: '#96999c', alt: 'Person in a white crew-neck T-shirt' },
+      { group: 2, src: '/images/kaos-kmsr/03.jpg', w: 1131, h: 1600, bg: '#000000', alt: 'Anatomy of ITB T-shirt, front: two rows of numbers in blue on the chest' },
+      { group: 2, src: '/images/kaos-kmsr/04.jpg', w: 1131, h: 1600, bg: '#000000', alt: 'Anatomy of ITB T-shirt, back: a grid of twelve objects above the words Anatomy of ITB — Science, Engineering, Art, Business' },
       { group: 3, src: '/images/kaos-kmsr/05.jpg', w: 1800, h: 1012, bg: '#c2bebc', alt: 'White T-shirt with a colour-block graphic' },
     ],
   },

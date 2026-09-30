@@ -40,13 +40,11 @@ used until my own project photos replace it.
 - 05.jpg — photo by [@small_robert](https://unsplash.com/@small_robert) — Unsplash image `1645485791314-ef2ceb335c98`
 - 06.jpg — photo by [@asabasai](https://unsplash.com/@asabasai) — Unsplash image `1761808070515-bfb862a85011`
 
-## kaos-kmsr
+## kaos-kmsr (Anatomy of ITB)
 
-- cover.jpg — photo by [@mediamodifier](https://unsplash.com/@mediamodifier) — Unsplash image `1620799139507-2a76f79a2f4d`
+- cover.jpg, 03.jpg, 04.jpg — my own work (Anatomy of ITB T-shirt, front and back)
 - 01.jpg — photo by [@ddography](https://unsplash.com/@ddography) — Unsplash image `1643216674491-33878507b402`
 - 02.jpg — photo by [@arcreates](https://unsplash.com/@arcreates) — Unsplash image `1663433567177-9f94be0bff4c`
-- 03.jpg — photo by [@rmanshin](https://unsplash.com/@rmanshin) — Unsplash image `1746899603348-ab9afd71e16d`
-- 04.jpg — photo by [@thamaramaura](https://unsplash.com/@thamaramaura) — Unsplash image `1628730992773-5185cc8efca9`
 - 05.jpg — photo by [@karpic](https://unsplash.com/@karpic) — Unsplash image `1652907586028-713845e9eaef`
 
 ## interior-concept

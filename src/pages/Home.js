@@ -12,6 +12,7 @@ import { Counter } from '../components/Counter.js';
 import { Slider } from '../gl/Slider.js';
 import { linesHTML } from '../lib/splitLines.js';
 import { revealIn, revealOut } from '../lib/reveal.js';
+import { setImage } from '../lib/loader.js';
 import { projects } from '../data/projects.js';
 import { slider as config } from '../config.js';
 import { store } from '../store.js';
@@ -45,7 +46,7 @@ export class Home extends Page {
           .map(
             (p, i) => `
           <button class="h-thumb" type="button" data-index="${i}" aria-label="Show ${p.title}">
-            <img class="h-thumb-img" src="${p.thumb}" alt="" width="200" height="125" draggable="false" />
+            <img class="h-thumb-img" alt="" width="200" height="125" draggable="false" />
           </button>`
           )
           .join('')}
@@ -66,6 +67,7 @@ export class Home extends Page {
 
     this.thumbs = [...this.el.querySelectorAll('.h-thumb')];
     this.thumbImgs = this.thumbs.map((t) => t.querySelector('.h-thumb-img'));
+    this.thumbImgs.forEach((img, i) => setImage(img, projects[i].thumb)); // WebP when available
     this.el.querySelector('.h-thumbs').addEventListener('click', (e) => {
       const thumb = e.target.closest('.h-thumb');
       if (!thumb) return;

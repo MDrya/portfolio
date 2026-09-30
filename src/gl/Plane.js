@@ -6,6 +6,8 @@ import { Mesh, Plane as PlaneGeometry, Program } from 'ogl';
 import vertex from './shaders/plane.vert?raw';
 import fragment from './shaders/plane.frag?raw';
 
+let planeCount = 0;
+
 export class Plane {
   /**
    * @param {import('./Renderer.js').Renderer} renderer
@@ -16,6 +18,8 @@ export class Plane {
     const { gl } = renderer;
     this.renderer = renderer;
     this.gl = gl;
+    this.id = ++planeCount;
+    this.version = 0; // bumped whenever the image it shows changes (see Renderer.takeSnapshot)
 
     this.uniforms = {
       uTexture: { value: null },
@@ -36,6 +40,7 @@ export class Plane {
 
     this.rect = { x: 0, y: 0, width: 1, height: 1 };
     this.setSource(src);
+    renderer.planes.add(this);
   }
 
   get alpha() {
@@ -63,6 +68,7 @@ export class Plane {
       if (this.uniforms.uTexture.value !== entry.texture) return; // source changed meanwhile
       this.uniforms.uImageSize.value = entry.size;
       this.alpha = alpha;
+      this.version++;
     };
     if (entry.ready) apply();
     else entry.waiting.push(apply);
@@ -79,6 +85,7 @@ export class Plane {
   }
 
   destroy() {
+    this.renderer.planes.delete(this);
     this.mesh.setParent(null);
     this.geometry.remove();
     this.program.remove();

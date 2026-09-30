@@ -11,6 +11,8 @@ import { gl as glConfig } from '../config.js';
 
 const dpr = () => Math.min(window.devicePixelRatio || 1, glConfig.maxDpr);
 
+const PLANE_STATE = 11; // numbers recorded per plane in takeSnapshot()
+
 export class Renderer {
   constructor(canvas) {
     this.renderer = new OGLRenderer({
@@ -28,6 +30,14 @@ export class Renderer {
 
     this.scene = new Transform();
     this.textures = new Map(); // url → shared texture entry
+    this.planes = new Set(); // every live Plane, for change detection
+
+    // Render-on-change: each frame we snapshot what the visible planes look like and only
+    // draw when that differs from the last drawn frame. A still page costs no GPU work.
+    this.snapshot = new Float64Array(64);
+    this.drawn = new Float64Array(64);
+    this.drawnLength = -1;
+    this.needsRender = true;
     this.viewport = { width: 0, height: 0 };
     this.resizeListeners = new Set();
 
@@ -46,6 +56,7 @@ export class Renderer {
     this.renderer.setSize(width, height);
     this.camera.orthographic({ left: -width / 2, right: width / 2, bottom: -height / 2, top: height / 2 });
     this.viewport = { width, height };
+    this.needsRender = true; // resizing clears the canvas
 
     this.resizeListeners.forEach((fn) => fn(this.viewport));
   }
@@ -90,7 +101,46 @@ export class Renderer {
     return () => this.resizeListeners.delete(fn);
   }
 
+  /** Writes the visible planes' state into `snapshot`; returns how many numbers were written. */
+  takeSnapshot() {
+    const needed = this.planes.size * PLANE_STATE;
+    if (this.snapshot.length < needed) {
+      this.snapshot = new Float64Array(needed * 2);
+      this.drawn = new Float64Array(needed * 2);
+      this.drawnLength = -1;
+    }
+
+    const s = this.snapshot;
+    let i = 0;
+    for (const plane of this.planes) {
+      if (!plane.visible || plane.alpha === 0) continue;
+      const { rect, uniforms: u } = plane;
+      s[i++] = plane.id;
+      s[i++] = plane.version; // bumps when its image changes or finishes loading
+      s[i++] = rect.x;
+      s[i++] = rect.y;
+      s[i++] = rect.width;
+      s[i++] = rect.height;
+      s[i++] = u.uZoom.value;
+      s[i++] = u.uParallax.value;
+      s[i++] = u.uParallaxY.value;
+      s[i++] = u.uVelocity.value;
+      s[i++] = u.uAlpha.value;
+    }
+    return i;
+  }
+
   render() {
+    const length = this.takeSnapshot();
+
+    let changed = this.needsRender || length !== this.drawnLength;
+    for (let i = 0; !changed && i < length; i++) changed = this.snapshot[i] !== this.drawn[i];
+    if (!changed) return;
+
     this.renderer.render({ scene: this.scene, camera: this.camera });
+
+    [this.snapshot, this.drawn] = [this.drawn, this.snapshot];
+    this.drawnLength = length;
+    this.needsRender = false;
   }
 }

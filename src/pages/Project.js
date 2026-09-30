@@ -15,6 +15,7 @@ import { Counter } from '../components/Counter.js';
 import { Plane } from '../gl/Plane.js';
 import { linesHTML } from '../lib/splitLines.js';
 import { clamp } from '../lib/math.js';
+import { setImage } from '../lib/loader.js';
 import { projects, getProject, getNextProject } from '../data/projects.js';
 import { reducedMotion } from '../config.js';
 import { store } from '../store.js';
@@ -219,9 +220,9 @@ export class Project extends Page {
       b.el.classList.add('is-loaded');
       const mini = b.mini.firstElementChild;
       mini.onload = () => b.mini.classList.add('is-loaded');
-      mini.src = b.img.src; // served from cache
+      mini.src = b.img.currentSrc || b.img.src; // same file, served from cache
     };
-    b.img.src = b.img.dataset.src;
+    setImage(b.img, b.img.dataset.src); // WebP when available, JPG otherwise
   }
 
   update() {

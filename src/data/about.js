@@ -52,9 +52,8 @@ export const about = [
     title: 'Get In Touch',
     links: [
       { label: 'daivarasendrya1680@gmail.com', href: 'mailto:daivarasendrya1680@gmail.com' },
-      // TODO: add your profile URLs, then uncomment
-      // { label: 'Instagram', href: 'https://instagram.com/<your-handle>' },
-      // { label: 'LinkedIn', href: 'https://www.linkedin.com/in/<your-handle>' },
+      { label: 'Instagram', href: 'https://www.instagram.com/md_raisen/' },
+      { label: 'LinkedIn', href: 'https://www.linkedin.com/in/muhammad-daiva-rasendrya/' },
     ],
   },
   {

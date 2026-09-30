@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MDR — Interior Design Portfolio</title>
+    <meta name="description" content="Portfolio of Muhammad Daiva Rasendrya (MDR), Interior Design student at ITB — spatial studies, models, material research and identity work." />
+    <meta name="theme-color" content="#141414" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="MDR — Interior Design Portfolio" />
+    <meta property="og:description" content="Spatial studies, models, material research and identity work by Muhammad Daiva Rasendrya." />
+    <meta property="og:image" content="/images/og.jpg" />
+
+    <link rel="preload" href="/fonts/inter-tight-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/src/styles/main.css" />
+  </head>
+  <body>
+    <noscript>
+      <p class="noscript">This portfolio needs JavaScript to run. Please enable it and reload the page.</p>
+    </noscript>
+
+    <canvas id="gl" aria-hidden="true"></canvas>
+
+    <nav class="nav t-ui" aria-label="Main">
+      <a class="nav-link" href="/" data-route="home">Work</a>
+      <a class="nav-link" href="/about" data-route="about">About</a>
+    </nav>
+
+    <main id="app"></main>
+
+    <div id="sail" aria-hidden="true"></div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

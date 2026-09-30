@@ -1,0 +1,241 @@
+/* ==========================================================================
+   Fonts
+   Inter Tight (SIL Open Font License) — self-hosted, one weight only.
+   ========================================================================== */
+@font-face {
+  font-family: 'Inter Tight';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/inter-tight-400.woff2') format('woff2');
+}
+
+/* ==========================================================================
+   Tokens
+   ========================================================================== */
+:root {
+  /* colour — near-black and white only; all colour comes from photography */
+  --bg: #141414;
+  --sail: #0e0e0e;
+  --fg: #ffffff;
+  --fg-50: rgba(255, 255, 255, 0.5);
+  --fg-30: rgba(255, 255, 255, 0.3);
+  --fg-20: rgba(255, 255, 255, 0.2);
+  --muted: #666667;
+
+  /* easing */
+  --o2: cubic-bezier(0.25, 0.46, 0.45, 0.94);   /* quad out — hovers, fades */
+  --o3: cubic-bezier(0.215, 0.61, 0.355, 1);    /* cubic out */
+  --o4: cubic-bezier(0.165, 0.84, 0.44, 1);     /* quart out */
+  --o5: cubic-bezier(0.23, 1, 0.32, 1);         /* quint out */
+  --o6: cubic-bezier(0.19, 1, 0.22, 1);         /* expo out — signature */
+  --io4: cubic-bezier(0.77, 0, 0.175, 1);       /* quart in-out */
+  --io6: cubic-bezier(1, 0, 0, 1);              /* expo in-out */
+
+  /* durations */
+  --d-hover: 300ms;
+  --d-reveal: 1200ms;
+  --d-img: 1000ms;
+
+  /* spacing */
+  --gutter: 40px;
+  --ui-top: 37px;
+  --ui-bottom: 36px;
+  --nav-gap: 22px;
+
+  /* type */
+  --font: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ==========================================================================
+   Reset
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6, strong, b, th {
+  font-weight: 400;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+img,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+::selection {
+  color: #fff;
+  background: #000;
+}
+
+:focus-visible {
+  outline: 1px solid var(--fg);
+  outline-offset: 4px;
+}
+
+/* ==========================================================================
+   Global layers
+   ========================================================================== */
+#gl {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+#app {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#sail {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--sail);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.noscript {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--gutter);
+  background: var(--bg);
+  text-align: center;
+}
+
+/* ==========================================================================
+   Nav
+   ========================================================================== */
+.nav {
+  position: fixed;
+  top: var(--ui-top);
+  left: 50%;
+  z-index: 100;
+  display: flex;
+  transform: translateX(-50%);
+}
+
+.nav-link {
+  margin: 0 var(--nav-gap);
+  opacity: 0.3;
+  transition: opacity var(--d-hover) var(--o2);
+}
+
+.nav-link:hover,
+.nav-link:focus-visible,
+.nav-link.is-active {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   Type scale
+   Large type scales by width on normal screens, by height on ultra-wide ones.
+   Design reference: 1600×1000 desktop.
+   ========================================================================== */
+.t-ui {
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.t-body {
+  font-size: 16px;
+  line-height: 21px;
+  color: var(--fg-50);
+}
+
+.t-xl {
+  letter-spacing: -0.015em;
+}
+
+.t-h1 {
+  letter-spacing: -0.02em;
+}
+
+.t-l {
+  letter-spacing: -0.02em;
+}
+
+.t-sup {
+  letter-spacing: 0.05em;
+}
+
+@media (max-aspect-ratio: 16/9) {
+  .t-xl  { font-size: 3.125vw;  line-height: 4.2708vw; }
+  .t-h1  { font-size: 3.125vw;  line-height: 3.3333vw; }
+  .t-l   { font-size: 1.5625vw; line-height: 2.7083vw; }
+  .t-sup { font-size: 0.9375vw; line-height: 1.1719vw; }
+}
+
+@media (min-aspect-ratio: 16/9) {
+  .t-xl  { font-size: 5.5556vh; line-height: 7.5926vh; }
+  .t-h1  { font-size: 5.5556vh; line-height: 5.9259vh; }
+  .t-l   { font-size: 2.7778vh; line-height: 4.8148vh; }
+  .t-sup { font-size: 1.6667vh; line-height: 2.0833vh; }
+}
+
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --d-hover: 150ms;
+    --d-reveal: 150ms;
+    --d-img: 150ms;
+  }
+}

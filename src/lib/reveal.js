@@ -19,12 +19,16 @@ const track = (target, pos) => {
 
 export function revealIn(target, { delay = 0, stagger = motion.stagger / 1000, duration = 1.2, ease = 'o6' } = {}) {
   track(target, 0);
-  return gsap.fromTo(resolve(target), { y: 0, yPercent: 110 }, { yPercent: 0, delay, stagger, duration, ease });
+  return gsap.fromTo(
+    resolve(target),
+    { y: 0, yPercent: 110 },
+    { yPercent: 0, delay, stagger, duration, ease, overwrite: 'auto' } // cancels a running exit
+  );
 }
 
 export function revealOut(target, { delay = 0, stagger = 0.04, duration = 0.8, ease = 'o6' } = {}) {
   track(target, -110);
-  return gsap.to(resolve(target), { y: 0, yPercent: -110, delay, stagger, duration, ease });
+  return gsap.to(resolve(target), { y: 0, yPercent: -110, delay, stagger, duration, ease, overwrite: 'auto' });
 }
 
 /** Snap lines back to the hidden-below start state (e.g. before replaying). */

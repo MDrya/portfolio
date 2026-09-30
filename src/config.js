@@ -30,10 +30,14 @@ export const motion = {
 };
 
 export const slider = {
-  snapOnRelease: true, // snap to nearest card and return to full mode after a drag
+  // After a drag is released (or the wheel goes idle), expand the card nearest the centre
+  // reticle back to full mode. false = stay in strip mode until a card is clicked / Esc.
+  snapOnRelease: true,
+  wheelIdle: 900, // ms without wheel input before snapOnRelease kicks in
   cardHeight: 0.28, // fraction of viewport height
   cardRatio: 0.7, // width / height
   cardGap: 15, // px
+  dragThreshold: 6, // px of movement before a press becomes a drag
 };
 
 // Follows the OS setting; `?motion=full` or `?motion=reduce` overrides it for testing.

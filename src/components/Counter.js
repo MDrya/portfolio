@@ -52,7 +52,9 @@ export class Counter {
     this.set(this.current - 1, opts);
   }
 
+  // enter/leave cancel each other, so a quick leave → enter never ends half-hidden
   enter({ delay = 0 } = {}) {
+    gsap.killTweensOf([this.left, this.dash, this.right]);
     return gsap
       .timeline({ delay })
       .fromTo(this.left, { x: 0, xPercent: -110 }, { xPercent: 0 }, 0)
@@ -61,6 +63,7 @@ export class Counter {
   }
 
   leave({ delay = 0 } = {}) {
+    gsap.killTweensOf([this.left, this.dash, this.right]);
     return gsap
       .timeline({ delay, defaults: { duration: 0.8 } })
       .to(this.left, { x: 0, xPercent: -110 }, 0)

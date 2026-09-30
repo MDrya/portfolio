@@ -1,4 +1,16 @@
-/* Home — full mode (§8a). Strip mode styles come in phase 7. */
+/* Home — full mode (§8a) and strip mode (§8b). */
+
+.page--home {
+  touch-action: pinch-zoom; /* one-finger swipes go to the slider, pinch zoom still works */
+}
+
+.page--home.is-strip {
+  cursor: grab;
+}
+
+.page--home.is-dragging {
+  cursor: grabbing;
+}
 
 /* --- title -------------------------------------------------------------- */
 /* zero-size anchor at screen centre; titles centre themselves on it, and the
@@ -37,7 +49,9 @@
   color: var(--fg);
   pointer-events: none;
   transform: scale(0);
-  transition: transform var(--d-reveal) var(--o6);
+  transition:
+    transform var(--d-reveal) var(--o6),
+    opacity var(--d-reveal) var(--o6);
 }
 
 .h-cross--l {
@@ -55,6 +69,22 @@
 
 .page--home.is-in .h-cross--l,
 .page--home.is-in .h-cross--r {
+  transform: scale(1);
+}
+
+/* strip mode: side crosses slide into the centre and fade; the centre one becomes
+   the fixed reticle */
+.page--home.is-in.is-strip .h-cross--l {
+  opacity: 0;
+  transform: translateX(calc(50vw - 16.1979vw - 11px)) scale(0.4);
+}
+
+.page--home.is-in.is-strip .h-cross--r {
+  opacity: 0;
+  transform: translateX(calc(-50vw + 16.1979vw + 11px)) scale(0.4);
+}
+
+.page--home.is-in.is-strip .h-cross--c {
   transform: scale(1);
 }
 

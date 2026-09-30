@@ -1,1 +1,102 @@
-/* about page — filled in its build phase */
+/* About page — right column (§10a). The left minimap comes in phase 10. */
+
+.a-right {
+  padding: 0 var(--gutter) 17.7vw calc(50% - 64px);
+}
+
+.a-r-s {
+  padding-top: 14.58vw;
+}
+
+.a-r-s:first-child {
+  padding-top: 17.7vw;
+}
+
+.a-large {
+  font-size: 2.8125vw;
+  line-height: 3.6458vw;
+  letter-spacing: -0.02em;
+}
+
+.a-large + .a-large {
+  margin-top: 3.6458vw;
+}
+
+.a-heading {
+  font-size: 2.2917vw;
+  line-height: 2.7604vw;
+}
+
+.a-small {
+  font-size: 1.25vw;
+  line-height: 1.6667vw;
+  color: var(--muted);
+}
+
+.a-entries,
+.a-links {
+  margin-top: 2.7604vw;
+}
+
+.a-entry + .a-entry {
+  margin-top: 2.0833vw;
+}
+
+.a-meta {
+  padding-left: 5.125vw; /* ~82px at 1600 */
+}
+
+.a-link {
+  display: inline-block;
+  transition: opacity var(--d-hover) var(--o2);
+}
+
+.a-link:hover {
+  opacity: 0.5;
+}
+
+@media (max-width: 767px) {
+  .a-right {
+    padding: 0 20px 120px;
+  }
+
+  .a-r-s {
+    padding-top: 80px;
+  }
+
+  .a-r-s:first-child {
+    padding-top: 120px;
+  }
+
+  .a-large {
+    font-size: 24px;
+    line-height: 30px;
+  }
+
+  .a-large + .a-large {
+    margin-top: 30px;
+  }
+
+  .a-heading {
+    font-size: 20px;
+    line-height: 26px;
+  }
+
+  .a-small {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .a-entries,
+  .a-links {
+    margin-top: 20px;
+  }
+
+  .a-entry + .a-entry {
+    margin-top: 16px;
+  }
+
+  .a-meta {
+    padding-left: 40px;
+  }
+}

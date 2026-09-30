@@ -1,1 +1,28 @@
-/* home page — filled in its build phase */
+/* Home — shell (full-mode title + pagination). Slider styles come in phases 6–7. */
+
+.h-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: flex-start;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+}
+
+.h-sup {
+  margin-left: 0.35em;
+}
+
+.h-pagination {
+  position: absolute;
+  bottom: var(--ui-bottom);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@media (max-width: 999px) {
+  .h-pagination {
+    display: none;
+  }
+}

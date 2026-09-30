@@ -1,1 +1,178 @@
-/* project page — filled in its build phase */
+/* Project page — shell layout (§9). Details (minimap, progress, scroll icon) in phase 9. */
+
+/* --- fixed UI ------------------------------------------------------------ */
+.p-back {
+  position: absolute;
+  top: var(--ui-top);
+  left: var(--gutter);
+  transition: opacity var(--d-hover) var(--o2);
+}
+
+.p-back:hover {
+  opacity: 0.5;
+}
+
+.p-counter {
+  position: absolute;
+  top: var(--ui-top);
+  right: 39px;
+}
+
+/* --- hero ---------------------------------------------------------------- */
+.p-hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* temporary until the WebGL plane takes over the hero (phase 8) */
+.p-hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.p-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 60%);
+  pointer-events: none;
+}
+
+.p-hero-col {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 65.625vw;
+  right: var(--gutter);
+  z-index: 1;
+  padding-top: var(--ui-top);
+}
+
+.p-hero-info {
+  margin-top: 10vh;
+}
+
+.p-summary {
+  width: 21.875vw;
+  max-width: 420px;
+  margin-top: 21px;
+}
+
+.p-context {
+  margin-top: 10vh;
+}
+
+.p-scroll-down {
+  position: absolute;
+  bottom: var(--ui-top);
+  left: 0;
+  text-align: left;
+  transition: opacity var(--d-hover) var(--o2);
+}
+
+.p-scroll-down:hover {
+  opacity: 0.4;
+}
+
+@media (max-height: 619px) {
+  .p-context {
+    display: none;
+  }
+}
+
+/* --- gallery ------------------------------------------------------------- */
+.p-gallery {
+  width: 900px;
+  margin: 20.8333vw auto;
+}
+
+.p-group + .p-group {
+  margin-top: 320px;
+}
+
+.p-img {
+  width: 100%;
+}
+
+.p-img + .p-img {
+  margin-top: 40px;
+}
+
+@media (max-width: 1699px) {
+  .p-gallery {
+    width: 52.9412vw;
+  }
+}
+
+/* --- footer: next project ------------------------------------------------ */
+.p-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.p-next {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.p-next-title {
+  display: flex;
+  align-items: flex-start;
+}
+
+.p-next-sup {
+  margin-left: 0.35em;
+}
+
+/* --- small screens (refined in phase 11) --------------------------------- */
+@media (max-width: 767px) {
+  .p-hero::after {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.15));
+  }
+
+  .p-hero-col {
+    left: 20px;
+    right: 20px;
+    padding-top: 90px;
+  }
+
+  .p-hero-col .t-h1 {
+    font-size: 32px;
+    line-height: 36px;
+  }
+
+  .p-summary {
+    width: auto;
+  }
+
+  .p-gallery {
+    width: calc(100% - 40px);
+    margin: 120px auto;
+  }
+
+  .p-group + .p-group {
+    margin-top: 120px;
+  }
+
+  .p-img + .p-img {
+    margin-top: 20px;
+  }
+
+  .p-next-title {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .p-next-tagline {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}

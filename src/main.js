@@ -3,18 +3,13 @@ import './styles/project.css';
 import './styles/about.css';
 
 import './lib/ease.js'; // registers eases + GSAP defaults before anything animates
-import { routes } from './config.js';
+import { App } from './App.js';
 
-// Phase 1 boot: highlight the nav item for the current path.
-// Replaced by loader → router → first page in later phases.
-function setActiveNav(pathname) {
-  const current = pathname === routes.about.path ? 'about' : 'home';
-  document.querySelectorAll('.nav-link').forEach((link) => {
-    const active = link.dataset.route === current;
-    link.classList.toggle('is-active', active);
-    if (active) link.setAttribute('aria-current', 'page');
-    else link.removeAttribute('aria-current');
-  });
+// Boot. Phase 4 puts the loader in front of this.
+async function boot() {
+  await document.fonts.ready; // line splitting needs final font metrics
+  const app = new App();
+  await app.start();
 }
 
-setActiveNav(window.location.pathname);
+boot();

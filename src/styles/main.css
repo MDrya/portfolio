@@ -160,6 +160,52 @@ ol {
 }
 
 /* ==========================================================================
+   Pages
+   .page-content is moved by the virtual scroll; .page-ui holds fixed UI.
+   ========================================================================== */
+.page {
+  position: absolute;
+  inset: 0;
+}
+
+.page-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  will-change: transform;
+}
+
+.page-ui {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.page-ui > * {
+  pointer-events: auto;
+}
+
+.nf {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.nf-link {
+  display: inline-block;
+  margin-top: 24px;
+  opacity: 0.5;
+  transition: opacity var(--d-hover) var(--o2);
+}
+
+.nf-link:hover {
+  opacity: 1;
+}
+
+/* ==========================================================================
    Nav
    ========================================================================== */
 .nav {

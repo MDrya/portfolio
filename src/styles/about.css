@@ -1,4 +1,4 @@
-/* About page — right column (§10a). The left minimap comes in phase 10. */
+/* About page (§10): right column content + left scaled minimap with a moving frame. */
 
 .a-right {
   padding: 0 var(--gutter) 17.7vw calc(50% - 64px);
@@ -53,6 +53,72 @@
 
 .a-link:hover {
   opacity: 0.5;
+}
+
+/* --- left minimap (§10b) ---------------------------------------------------
+   .a-mini-inner holds a clone of the right column at full size; JS sets its width and a
+   scale() so it fits the 9.64vw minimap. */
+.a-mini {
+  position: absolute;
+  top: 15.34vw;
+  left: calc(var(--gutter) + 3.28vw);
+  width: 9.64vw;
+  cursor: pointer;
+  will-change: transform;
+}
+
+.a-mini-inner {
+  transform-origin: 0 0;
+}
+
+/* the clone starts at its first line of text and shows every line (no reveal masks) */
+.a-mini .a-r-s:first-child {
+  padding-top: 0;
+}
+
+.a-mini .line {
+  white-space: nowrap;
+}
+
+.a-mini .line-in {
+  transform: none !important;
+}
+
+/* mini sections appear when their full-size counterpart enters the viewport */
+.a-mini .a-r-s {
+  opacity: 0;
+  transition: opacity var(--d-img) var(--o2);
+}
+
+.a-mini .a-r-s.is-seen {
+  opacity: 1;
+}
+
+/* frame around the part of the page currently on screen */
+.a-frame {
+  position: absolute;
+  top: 0;
+  left: var(--gutter);
+  width: 15vw;
+  border: 1.34px solid var(--fg-20);
+  opacity: 0;
+  transition: opacity var(--d-img) var(--o2);
+  will-change: transform;
+}
+
+.page-ui > .a-frame {
+  pointer-events: none;
+}
+
+.page--about.is-in .a-frame {
+  opacity: 1;
+}
+
+@media (max-width: 999px) {
+  .a-mini,
+  .a-frame {
+    display: none;
+  }
 }
 
 @media (max-width: 767px) {

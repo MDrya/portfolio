@@ -2,6 +2,7 @@ import './styles/home.css';
 import './styles/project.css';
 import './styles/about.css';
 
+import './lib/ease.js'; // registers eases + GSAP defaults before anything animates
 import { routes } from './config.js';
 
 // Phase 1 boot: highlight the nav item for the current path.

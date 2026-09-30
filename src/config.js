@@ -36,5 +36,14 @@ export const slider = {
   cardGap: 15, // px
 };
 
-export const reducedMotion =
-  typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Follows the OS setting; `?motion=full` or `?motion=reduce` overrides it for testing.
+// Exposed to CSS as <html data-motion="full|reduce">.
+export const reducedMotion = (() => {
+  if (typeof window === 'undefined') return false;
+  const override = new URLSearchParams(window.location.search).get('motion');
+  const reduce = override
+    ? override === 'reduce'
+    : window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.documentElement.dataset.motion = reduce ? 'reduce' : 'full';
+  return reduce;
+})();

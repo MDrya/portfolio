@@ -230,12 +230,89 @@ ol {
 }
 
 /* ==========================================================================
-   Reduced motion
+   Masked line reveal
+   Each line is clipped by .line; .line-in starts below and slides up.
    ========================================================================== */
-@media (prefers-reduced-motion: reduce) {
-  :root {
-    --d-hover: 150ms;
-    --d-reveal: 150ms;
-    --d-img: 150ms;
-  }
+.line {
+  display: block;
+  overflow: hidden;
+}
+
+.line-in {
+  display: block;
+  transform: translate3d(0, 110%, 0);
+  will-change: transform;
+}
+
+/* ==========================================================================
+   Counter  (1 — 8)
+   ========================================================================== */
+.counter {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.counter-l,
+.counter-r {
+  display: block;
+  height: 20px;
+  overflow: hidden;
+}
+
+.counter-l-in,
+.counter-r-in,
+.counter-col,
+.counter-col > span {
+  display: block;
+}
+
+.counter-l-in {
+  transform: translate3d(-110%, 0, 0);
+}
+
+.counter-r-in {
+  transform: translate3d(110%, 0, 0);
+}
+
+.counter-col {
+  text-align: right;
+}
+
+.counter-col > span {
+  height: 20px;
+}
+
+.counter-dash {
+  display: block;
+  margin: 0 0.45em;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   Reduced motion
+   data-motion is set by config.js from the OS setting (or a ?motion= override).
+   ========================================================================== */
+:root[data-motion='reduce'] {
+  --d-hover: 150ms;
+  --d-reveal: 150ms;
+  --d-img: 150ms;
 }

@@ -7,6 +7,25 @@
 
 const list = [
   {
+    slug: 'anatomy-of-itb',
+    title: 'Anatomy of ITB',
+    heroTitle: ['One Campus,', 'Taken Apart'],
+    tagline: 'Science, engineering, art, business',
+    role: 'Designer',
+    summary: ['A T-shirt that dissects ITB', 'into its parts: rows of', 'faculty codes on the chest,', 'and one object for each', 'field of study on the back.'],
+    context: ['ITB', 'Merchandise'],
+    accent: ['#000000', '#1f2a6b'],
+    gallery: [
+      { group: 1, src: '/images/anatomy-of-itb/01.jpg', w: 1131, h: 1600, bg: '#000000', alt: 'Anatomy of ITB T-shirt, front: two rows of numbers in blue on the chest' },
+      { group: 1, src: '/images/anatomy-of-itb/02.jpg', w: 1131, h: 1600, bg: '#000000', alt: 'Anatomy of ITB T-shirt, back: a grid of twelve objects above the words Anatomy of ITB — Science, Engineering, Art, Business' },
+      { group: 2, src: '/images/anatomy-of-itb/03.jpg', w: 1800, h: 1125, bg: '#ceccc6', alt: 'Blank white T-shirt laid flat with sneakers and a palm leaf' },
+      { group: 3, src: '/images/anatomy-of-itb/04.jpg', w: 1800, h: 1012, bg: '#6f766c', alt: 'Screen printing a shirt by hand, wearing gloves' },
+      { group: 3, src: '/images/anatomy-of-itb/05.jpg', w: 1800, h: 1012, bg: '#696b62', alt: 'Working at a screen-printing machine' },
+      { group: 4, src: '/images/anatomy-of-itb/06.jpg', w: 1200, h: 1500, bg: '#6f7071', alt: 'Person wearing a printed white T-shirt' },
+      { group: 4, src: '/images/anatomy-of-itb/07.jpg', w: 1200, h: 1500, bg: '#96999c', alt: 'Person in a white crew-neck T-shirt' },
+    ],
+  },
+  {
     slug: 'maket-study',
     title: 'Scale Model Study',
     heroTitle: ['Building Space', 'At One To Fifty'],
@@ -73,25 +92,6 @@ const list = [
       { group: 3, src: '/images/birudaun/04.jpg', w: 1800, h: 1012, bg: '#54778e', alt: 'Dyeing fabric by hand in a workshop' },
       { group: 3, src: '/images/birudaun/05.jpg', w: 1800, h: 1012, bg: '#848176', alt: 'Row of blue and white garments' },
       { group: 4, src: '/images/birudaun/06.jpg', w: 1800, h: 1012, bg: '#747f8d', alt: 'Dye vats and sinks in a workshop' },
-    ],
-  },
-  {
-    slug: 'anatomy-of-itb',
-    title: 'Anatomy of ITB',
-    heroTitle: ['One Campus,', 'Taken Apart'],
-    tagline: 'Science, engineering, art, business',
-    role: 'Designer',
-    summary: ['A T-shirt that dissects ITB', 'into its parts: rows of', 'faculty codes on the chest,', 'and one object for each', 'field of study on the back.'],
-    context: ['ITB', 'Merchandise'],
-    accent: ['#000000', '#1f2a6b'],
-    gallery: [
-      { group: 1, src: '/images/anatomy-of-itb/01.jpg', w: 1131, h: 1600, bg: '#000000', alt: 'Anatomy of ITB T-shirt, front: two rows of numbers in blue on the chest' },
-      { group: 1, src: '/images/anatomy-of-itb/02.jpg', w: 1131, h: 1600, bg: '#000000', alt: 'Anatomy of ITB T-shirt, back: a grid of twelve objects above the words Anatomy of ITB — Science, Engineering, Art, Business' },
-      { group: 2, src: '/images/anatomy-of-itb/03.jpg', w: 1800, h: 1125, bg: '#ceccc6', alt: 'Blank white T-shirt laid flat with sneakers and a palm leaf' },
-      { group: 3, src: '/images/anatomy-of-itb/04.jpg', w: 1800, h: 1012, bg: '#6f766c', alt: 'Screen printing a shirt by hand, wearing gloves' },
-      { group: 3, src: '/images/anatomy-of-itb/05.jpg', w: 1800, h: 1012, bg: '#696b62', alt: 'Working at a screen-printing machine' },
-      { group: 4, src: '/images/anatomy-of-itb/06.jpg', w: 1200, h: 1500, bg: '#6f7071', alt: 'Person wearing a printed white T-shirt' },
-      { group: 4, src: '/images/anatomy-of-itb/07.jpg', w: 1200, h: 1500, bg: '#96999c', alt: 'Person in a white crew-neck T-shirt' },
     ],
   },
   {

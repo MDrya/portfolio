@@ -15,7 +15,7 @@
 .p-counter {
   position: absolute;
   top: var(--ui-top);
-  right: 39px;
+  right: calc(var(--gutter) - 1px);
 }
 
 /* 3px bar on the left edge; JS translates it from -110% to 0 with scroll progress */
@@ -82,7 +82,7 @@
 /* --- hero ---------------------------------------------------------------- */
 .p-hero {
   position: relative;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100); /* visible height — matches the WebGL plane */
   overflow: hidden;
 }
 
@@ -111,6 +111,11 @@
   right: var(--gutter);
   z-index: 1;
   padding-top: var(--ui-top);
+}
+
+/* keep the first title line clear of the counter in the top-right corner */
+.p-hero-col h1 {
+  margin-right: 80px;
 }
 
 .p-hero-info {
@@ -142,7 +147,7 @@
 /* Scroll icon: capsule outline that draws itself, arrow slides in */
 .p-scroll-icon {
   position: absolute;
-  right: 39px;
+  right: calc(var(--gutter) - 1px);
   bottom: 39px;
   z-index: 1;
   display: block;
@@ -238,7 +243,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  padding: 0 var(--gutter);
 }
 
 .p-next {
@@ -257,38 +263,58 @@
   margin-left: 0.35em;
 }
 
-/* --- small screens (refined in phase 11) --------------------------------- */
+/* --- narrow desktop / tablet (768–999px) ----------------------------------
+   At 65.6vw the text column gets too narrow, so start it at the middle and drop the
+   title below the top UI row. */
+@media (max-width: 999px) {
+  .p-hero-col {
+    left: 50vw;
+    padding-top: 96px;
+  }
+
+  .p-hero-col h1 {
+    margin-right: 0;
+  }
+
+  .p-summary {
+    width: auto;
+    max-width: 320px;
+  }
+}
+
+/* --- phones (< 768px, reference 375×800) ----------------------------------
+   Text column full width over a darkened hero; gallery full width minus the gutters;
+   no minimap. */
 @media (max-width: 767px) {
   .p-mini,
   .p-mini-frame {
     display: none;
   }
 
-  .p-scroll-icon {
-    right: 20px;
-  }
-
   .p-hero::after {
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.15));
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.25));
   }
 
   .p-hero-col {
-    left: 20px;
-    right: 20px;
-    padding-top: 90px;
+    left: var(--gutter);
+    right: var(--gutter);
+    padding-top: 96px;
   }
 
-  .p-hero-col .t-h1 {
-    font-size: 32px;
-    line-height: 36px;
+  .p-hero-info {
+    margin-top: 48px;
   }
 
   .p-summary {
-    width: auto;
+    max-width: 300px;
+  }
+
+  .p-context {
+    margin-top: 40px;
   }
 
   .p-gallery {
-    width: calc(100% - 40px);
+    width: calc(100% - var(--gutter) * 2);
     margin: 120px auto;
   }
 
@@ -300,13 +326,7 @@
     margin-top: 20px;
   }
 
-  .p-next-title {
-    font-size: 32px;
-    line-height: 40px;
-  }
-
   .p-next-tagline {
-    font-size: 16px;
-    line-height: 24px;
+    margin-top: 8px;
   }
 }

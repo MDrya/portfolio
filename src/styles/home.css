@@ -1,6 +1,7 @@
 /* Home — full mode (§8a) and strip mode (§8b). */
 
 .page--home {
+  --cross-inset: 16.1979vw; /* distance of the side crosshairs from the screen edges */
   touch-action: pinch-zoom; /* one-finger swipes go to the slider, pinch zoom still works */
 }
 
@@ -55,11 +56,11 @@
 }
 
 .h-cross--l {
-  left: 16.1979vw;
+  left: var(--cross-inset);
 }
 
 .h-cross--r {
-  right: 16.1979vw;
+  right: var(--cross-inset);
 }
 
 .h-cross--c {
@@ -76,12 +77,12 @@
    the fixed reticle */
 .page--home.is-in.is-strip .h-cross--l {
   opacity: 0;
-  transform: translateX(calc(50vw - 16.1979vw - 11px)) scale(0.4);
+  transform: translateX(calc(50vw - var(--cross-inset) - 11px)) scale(0.4);
 }
 
 .page--home.is-in.is-strip .h-cross--r {
   opacity: 0;
-  transform: translateX(calc(-50vw + 16.1979vw + 11px)) scale(0.4);
+  transform: translateX(calc(-50vw + var(--cross-inset) + 11px)) scale(0.4);
 }
 
 .page--home.is-in.is-strip .h-cross--c {
@@ -139,5 +140,22 @@
     right: auto;
     left: 50%;
     transform: translateX(-50%);
+  }
+}
+
+/* phones: at 16vw the side crosshairs would sit on top of the title, so pull them to
+   the edges; smaller thumbnails so all of them fit a 320px screen */
+@media (max-width: 767px) {
+  .page--home {
+    --cross-inset: var(--gutter);
+  }
+
+  .h-thumbs {
+    gap: 5px;
+  }
+
+  .h-thumb {
+    width: 30px;
+    height: 24px; /* 24px is the minimum comfortable tap target */
   }
 }

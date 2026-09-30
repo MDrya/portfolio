@@ -4,7 +4,8 @@
 //            scroll icon that draws itself.
 // Gallery  — grouped image blocks, lazy-loaded with a fade, subtle scroll parallax.
 // Minimap  — scaled replica of the gallery column on the right edge, with a frame that
-//            shows the viewport; click a mini image to jump to it.
+//            shows the viewport; click a mini image to jump to it. It duplicates the
+//            gallery visually, so it's hidden from assistive tech and the tab order.
 // Progress — 3px bar on the left edge, fills top → bottom with scroll.
 // Footer   — next project; its cover fades in behind in WebGL, and once it fills the
 //            screen the click hands off to that project without the sail.
@@ -93,7 +94,7 @@ export class Project extends Page {
       </section>
 
       <footer class="p-footer">
-        <a class="p-next" href="/${n.slug}">
+        <a class="p-next" href="/${n.slug}" aria-label="Next project: ${n.title}, ${n.imageCount} images. ${n.tagline}">
           <span class="p-next-title t-xl">
             <span data-reveal>${linesHTML([n.title])}</span>
             <span class="p-next-sup t-sup" data-reveal>${linesHTML([pad(n.imageCount)])}</span>
@@ -109,15 +110,14 @@ export class Project extends Page {
       <div class="p-progress" aria-hidden="true"></div>
       <a class="p-back t-ui" href="/" data-reveal>${linesHTML(['Back'])}</a>
       <div class="p-counter"></div>
-      <nav class="p-mini" aria-label="Gallery overview">
+      <div class="p-mini" aria-hidden="true">
         ${this.project.gallery
           .map(
             (img, i) => `
-          <button class="p-mini-item" type="button" data-index="${i}" style="background: ${img.bg}"
-            aria-label="Go to image ${i + 1}: ${img.alt}"><img class="p-mini-img" alt="" draggable="false" /></button>`
+          <button class="p-mini-item" type="button" tabindex="-1" data-index="${i}" style="background: ${img.bg}"><img class="p-mini-img" alt="" draggable="false" /></button>`
           )
           .join('')}
-      </nav>
+      </div>
       <div class="p-mini-frame" aria-hidden="true"></div>
     `;
   }

@@ -32,6 +32,13 @@ export class App {
     this.webgl = new Renderer(document.getElementById('gl'));
     this.page = null;
     this.scrollMemory = new Map(); // history key → scroll position
+    this.announcer = document.getElementById('announcer');
+
+    // "Skip to content": move focus into the page without touching the URL
+    document.querySelector('.skip').addEventListener('click', (e) => {
+      e.preventDefault();
+      this.container.focus({ preventScroll: true });
+    });
 
     this.router = new Router({ resolve, onNavigate: (route, info) => this.go(route, info) });
   }
@@ -45,6 +52,16 @@ export class App {
   intro() {
     revealIn(this.navLinks.map((a) => a.querySelector('.line-in')), { delay: 0.1 });
     this.page.enter({ delay: 0.15 });
+  }
+
+  /**
+   * After a page swap: there is no real page load, so tell assistive tech what happened
+   * and put keyboard focus at the start of the new page (not on a link that's gone).
+   */
+  arrived(page) {
+    document.title = page.title;
+    this.announcer.textContent = page.title;
+    this.container.focus({ preventScroll: true });
   }
 
   setNav(route) {
@@ -81,8 +98,8 @@ export class App {
       await prev.leave({ handoff: true });
       prev.destroy();
       next.mount(this.container);
-      document.title = next.title;
       this.page = next;
+      this.arrived(next);
       next.enter({ delay: 0.05, handoff: true });
       this.sail.style.pointerEvents = '';
       return;
@@ -93,8 +110,8 @@ export class App {
 
     prev.destroy();
     next.mount(this.container);
-    document.title = next.title;
     this.page = next;
+    this.arrived(next);
 
     if (restore && next.scroll) {
       next.scroll.scrollTo(restore, { immediate: true });

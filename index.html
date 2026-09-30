@@ -20,6 +20,8 @@
       <p class="noscript">This portfolio needs JavaScript to run. Please enable it and reload the page.</p>
     </noscript>
 
+    <a class="skip t-ui" href="#app">Skip to content</a>
+
     <canvas id="gl" aria-hidden="true"></canvas>
 
     <nav class="nav t-ui" aria-label="Main">
@@ -27,7 +29,10 @@
       <a class="nav-link" href="/about" data-route="about"><span class="line"><span class="line-in">About</span></span></a>
     </nav>
 
-    <main id="app"></main>
+    <main id="app" tabindex="-1"></main>
+
+    <!-- announces page changes to screen readers (there are no real page loads) -->
+    <div id="announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
     <div id="sail" aria-hidden="true"></div>
 

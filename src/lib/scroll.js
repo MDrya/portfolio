@@ -139,6 +139,9 @@ export class VirtualScroll {
   // Keyboard focus on something off-screen: bring it into view with the virtual scroll.
   onFocus(e) {
     if (!this.content.contains(e.target)) return;
+    // The browser has already scrolled the wrapper natively to reveal the element;
+    // undo that first, otherwise it measures as "in view" and we'd do nothing.
+    this.onNativeScroll();
     const rect = e.target.getBoundingClientRect();
     if (rect.top < 0 || rect.bottom > window.innerHeight) {
       this.scrollTo(this.current + rect.top - window.innerHeight / 3);

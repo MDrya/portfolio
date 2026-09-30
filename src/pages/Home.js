@@ -36,6 +36,7 @@ export class Home extends Page {
 
   ui() {
     return `
+      <h1 class="sr-only">Selected work — use the left and right arrow keys, or the project buttons, to browse</h1>
       ${cross('l')}${cross('r')}${cross('c')}
       <div class="h-titles" aria-live="polite"></div>
       <div class="h-pagination"></div>
@@ -96,7 +97,8 @@ export class Home extends Page {
     a.href = `/${p.slug}`;
     a.innerHTML = `
       <span class="h-title-text">${linesHTML([p.title])}</span>
-      <span class="h-sup t-sup" aria-label="${p.imageCount} images">${linesHTML([pad(p.imageCount)])}</span>`;
+      <span class="h-sup t-sup" aria-hidden="true">${linesHTML([pad(p.imageCount)])}</span>
+      <span class="sr-only">, ${p.imageCount} images</span>`;
     this.titles.append(a);
     return a;
   }
@@ -219,7 +221,12 @@ export class Home extends Page {
 
     const dx = e.clientX - d.x;
     if (!d.moved) {
-      if (Math.hypot(dx, e.clientY - d.y) < config.dragThreshold) return;
+      const dy = e.clientY - d.y;
+      if (Math.hypot(dx, dy) < config.dragThreshold) return;
+      if (e.pointerType === 'touch' && Math.abs(dy) > Math.abs(dx)) {
+        this.drag = null; // a vertical swipe isn't a slider gesture
+        return;
+      }
       d.moved = true;
       try {
         this.el.setPointerCapture(e.pointerId); // keep receiving moves outside the window

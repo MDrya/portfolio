@@ -47,6 +47,12 @@
   --font: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
 }
 
+@media (max-width: 767px) {
+  :root {
+    --gutter: 20px;
+  }
+}
+
 /* ==========================================================================
    Reset
    ========================================================================== */
@@ -138,6 +144,26 @@ ol {
   -webkit-user-select: none;
 }
 
+/* focused programmatically after each page change; no ring needed for that */
+#app:focus {
+  outline: none;
+}
+
+.skip {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 300;
+  padding: 8px 12px;
+  background: var(--fg);
+  color: var(--bg);
+  transform: translateY(-200%);
+}
+
+.skip:focus-visible {
+  transform: none;
+}
+
 #sail {
   position: fixed;
   inset: 0;
@@ -195,9 +221,12 @@ ol {
   will-change: transform;
 }
 
+/* comes first in the DOM so Back / counters are reached before the long content,
+   but is painted above it */
 .page-ui {
   position: absolute;
   inset: 0;
+  z-index: 2;
   pointer-events: none;
 }
 
@@ -293,6 +322,14 @@ ol {
   .t-h1  { font-size: 5.5556vh; line-height: 5.9259vh; }
   .t-l   { font-size: 2.7778vh; line-height: 4.8148vh; }
   .t-sup { font-size: 1.6667vh; line-height: 2.0833vh; }
+}
+
+/* Phones (reference 375×800): viewport-scaled type would be ~12px, so use fixed sizes. */
+@media (max-width: 767px) {
+  .t-xl  { font-size: 28px; line-height: 36px; }
+  .t-h1  { font-size: 30px; line-height: 34px; }
+  .t-l   { font-size: 16px; line-height: 24px; }
+  .t-sup { font-size: 10px; line-height: 12px; }
 }
 
 /* ==========================================================================

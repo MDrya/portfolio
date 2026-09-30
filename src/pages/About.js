@@ -42,7 +42,9 @@ const sections = {
           (l) => `
         <li>
           <a class="a-link a-heading" href="${l.href}" data-reveal
-            ${external(l.href) ? 'target="_blank" rel="noopener noreferrer"' : ''}>${linesHTML([l.label])}</a>
+            ${external(l.href) ? 'target="_blank" rel="noopener noreferrer"' : ''}>${linesHTML([l.label])}${
+              external(l.href) ? '<span class="sr-only"> (opens in a new tab)</span>' : ''
+            }</a>
         </li>`
         )
         .join('')}
@@ -59,6 +61,7 @@ export class About extends Page {
 
   template() {
     return `
+      <h1 class="sr-only">About</h1>
       <div class="a-right">
         ${about.map((s) => `<section class="a-r-s" id="${s.id}">${sections[s.type](s)}</section>`).join('')}
       </div>

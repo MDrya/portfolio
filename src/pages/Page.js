@@ -1,9 +1,9 @@
 // Base class for all pages.
 //
 // A page renders two layers:
-//   .page-content — scrolls (moved by VirtualScroll when `scrollable`)
 //   .page-ui      — fixed UI (Back link, counters…). Kept outside the content because a
 //                   transformed parent would break position: fixed.
+//   .page-content — scrolls (moved by VirtualScroll when `scrollable`)
 //
 // Text reveal groups in the markup:
 //   data-reveal — element whose .line-in children are already in the markup (linesHTML)
@@ -46,7 +46,8 @@ export class Page {
   mount(container) {
     this.el = document.createElement('div');
     this.el.className = `page page--${this.name}`;
-    this.el.innerHTML = `<div class="page-content">${this.template()}</div><div class="page-ui">${this.ui()}</div>`;
+    // UI layer first: Back / counters come before the long content in tab order
+    this.el.innerHTML = `<div class="page-ui">${this.ui()}</div><div class="page-content">${this.template()}</div>`;
     container.append(this.el);
 
     this.content = this.el.querySelector('.page-content');

@@ -42,7 +42,12 @@ used until my own project photos replace it.
 
 ## anatomy-of-itb
 
-- all images — my own work (Anatomy of ITB T-shirt, front and back)
+- cover.jpg, 01.jpg, 02.jpg — my own work (Anatomy of ITB T-shirt, front and back)
+- 03.jpg — photo by [@mediamodifier](https://unsplash.com/@mediamodifier) — Unsplash image `1620799139507-2a76f79a2f4d`
+- 04.jpg — photo by [@ddography](https://unsplash.com/@ddography) — Unsplash image `1643216674491-33878507b402`
+- 05.jpg — photo by [@arcreates](https://unsplash.com/@arcreates) — Unsplash image `1663433567177-9f94be0bff4c`
+- 06.jpg — photo by [@rmanshin](https://unsplash.com/@rmanshin) — Unsplash image `1746899603348-ab9afd71e16d`
+- 07.jpg — photo by [@thamaramaura](https://unsplash.com/@thamaramaura) — Unsplash image `1628730992773-5185cc8efca9`
 
 ## interior-concept
 

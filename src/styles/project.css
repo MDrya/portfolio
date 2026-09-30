@@ -93,7 +93,9 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to left, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 60%);
+  /* dark enough behind the text column (right third) that white and grey text stay
+     readable even on a bright cover, fading out before the middle of the image */
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.5) 32%, rgba(0, 0, 0, 0) 66%);
   opacity: 0;
   pointer-events: none;
   transition: opacity 600ms var(--o2);

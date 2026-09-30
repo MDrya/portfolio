@@ -3,6 +3,9 @@
   "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "redirects": [
+    { "source": "/kaos-kmsr", "destination": "/anatomy-of-itb", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/((?!assets/|images/|fonts/).*)", "destination": "/index.html" }
   ],

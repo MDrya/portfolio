@@ -31,7 +31,7 @@ export const about = [
     entries: [
       { title: 'Designer — Scale Model Study', meta: '2024' },
       { title: 'Brand Designer — Birudaun', meta: '2024' },
-      { title: 'Designer & Developer — Anatomy of ITB', meta: '2024' },
+      { title: 'Designer — Anatomy of ITB', meta: '2024' },
       { title: 'Interior Designer — Café Concept', meta: '2025' },
     ],
   },

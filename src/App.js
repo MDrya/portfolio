@@ -4,6 +4,7 @@
 import gsap from 'gsap';
 import { Router } from './lib/router.js';
 import { revealIn } from './lib/reveal.js';
+import { Renderer } from './gl/Renderer.js';
 import { routes } from './config.js';
 import { getProject } from './data/projects.js';
 import { Home } from './pages/Home.js';
@@ -28,6 +29,7 @@ export class App {
     this.container = document.getElementById('app');
     this.sail = document.getElementById('sail');
     this.navLinks = [...document.querySelectorAll('.nav-link')];
+    this.webgl = new Renderer(document.getElementById('gl'));
     this.page = null;
     this.scrollMemory = new Map(); // history key → scroll position
 

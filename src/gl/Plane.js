@@ -1,30 +1,31 @@
 // A textured plane positioned in DOM pixel coordinates, with cover-fit UVs (see plane.frag).
+// Textures come from the renderer's shared cache, so planes showing the same image share
+// one GPU texture and destroying a plane never deletes it.
 
-import { Mesh, Plane as PlaneGeometry, Program, Texture } from 'ogl';
+import { Mesh, Plane as PlaneGeometry, Program } from 'ogl';
 import vertex from './shaders/plane.vert?raw';
 import fragment from './shaders/plane.frag?raw';
 
 export class Plane {
   /**
    * @param {import('./Renderer.js').Renderer} renderer
-   * @param {{ image?: HTMLImageElement, segments?: number }} opts
-   *   segments: horizontal subdivisions, needed for the velocity bend
+   * @param {{ src?: string, segments?: number }} opts
+   *   src: image URL; segments: horizontal subdivisions, needed for the velocity bend
    */
-  constructor(renderer, { image, segments = 32 } = {}) {
+  constructor(renderer, { src, segments = 32 } = {}) {
     const { gl } = renderer;
     this.renderer = renderer;
     this.gl = gl;
 
-    this.texture = new Texture(gl, { wrapS: gl.CLAMP_TO_EDGE, wrapT: gl.CLAMP_TO_EDGE });
-
     this.uniforms = {
-      uTexture: { value: this.texture },
+      uTexture: { value: null },
       uImageSize: { value: [1, 1] },
       uPlaneSize: { value: [1, 1] },
       uZoom: { value: 1 },
       uParallax: { value: 0 },
+      uParallaxY: { value: 0 },
       uVelocity: { value: 0 },
-      uAlpha: { value: 0 }, // hidden until an image is set
+      uAlpha: { value: 0 }, // hidden until the image is ready
     };
 
     // flat planes in one 2D layer: draw order decides overlap, not depth
@@ -34,7 +35,7 @@ export class Plane {
     this.mesh.setParent(renderer.scene);
 
     this.rect = { x: 0, y: 0, width: 1, height: 1 };
-    if (image) this.setImage(image);
+    this.setSource(src);
   }
 
   get alpha() {
@@ -53,10 +54,18 @@ export class Plane {
     this.mesh.visible = v;
   }
 
-  setImage(image, { alpha = 1 } = {}) {
-    this.texture.image = image;
-    this.uniforms.uImageSize.value = [image.naturalWidth, image.naturalHeight];
-    this.alpha = alpha;
+  setSource(src, { alpha = 1 } = {}) {
+    if (!src) return;
+    const entry = this.renderer.texture(src);
+    this.uniforms.uTexture.value = entry.texture;
+
+    const apply = () => {
+      if (this.uniforms.uTexture.value !== entry.texture) return; // source changed meanwhile
+      this.uniforms.uImageSize.value = entry.size;
+      this.alpha = alpha;
+    };
+    if (entry.ready) apply();
+    else entry.waiting.push(apply);
   }
 
   /** Position/size in CSS pixels, top-left origin — same numbers as getBoundingClientRect(). */
@@ -73,6 +82,5 @@ export class Plane {
     this.mesh.setParent(null);
     this.geometry.remove();
     this.program.remove();
-    this.gl.deleteTexture(this.texture.texture);
   }
 }

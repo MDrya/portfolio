@@ -71,6 +71,22 @@ export class App {
 
     const prev = this.page;
     if (prev.scroll) this.scrollMemory.set(fromKey, prev.scroll.current);
+    const restore = pop && this.scrollMemory.has(key) ? this.scrollMemory.get(key) : 0;
+
+    // Hand-off: both pages draw the same cover full-screen in WebGL, so instead of the
+    // sail we let the old text exit and swap pages within one frame. Not when the new
+    // page would open scrolled down (its hero would be off-screen).
+    if (restore < 1 && prev.handsOffTo?.(route)) {
+      this.sail.style.pointerEvents = 'auto';
+      await prev.leave({ handoff: true });
+      prev.destroy();
+      next.mount(this.container);
+      document.title = next.title;
+      this.page = next;
+      next.enter({ delay: 0.05, handoff: true });
+      this.sail.style.pointerEvents = '';
+      return;
+    }
 
     this.sail.style.pointerEvents = 'auto'; // block clicks on the old page mid-transition
     await Promise.all([prev.leave(), gsap.to(this.sail, { opacity: 1, duration: 0.6, ease: 'o2' })]);
@@ -80,8 +96,8 @@ export class App {
     document.title = next.title;
     this.page = next;
 
-    if (pop && next.scroll && this.scrollMemory.has(key)) {
-      next.scroll.scrollTo(this.scrollMemory.get(key), { immediate: true });
+    if (restore && next.scroll) {
+      next.scroll.scrollTo(restore, { immediate: true });
       next.measure();
     }
 

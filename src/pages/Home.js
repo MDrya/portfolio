@@ -277,10 +277,22 @@ export class Home extends Page {
     if (this.slider.mode === 'strip') this.updateThumbs(this.slider.nearest(this.slider.pos));
   }
 
-  enter({ delay = 0 } = {}) {
+  /**
+   * Hand-off (§8d): going to the project that's on screen, the cover stays put and the
+   * project page's hero plane takes over from the slider — no sail, no flash.
+   */
+  handsOffTo(route) {
+    return (
+      route.name === 'project' &&
+      route.params.slug === projects[this.index].slug &&
+      this.slider.mode === 'full'
+    );
+  }
+
+  enter({ delay = 0, handoff = false } = {}) {
     super.enter({ delay });
     this.el.classList.add('is-in'); // crosses scale in (CSS transition)
-    this.slider.intro();
+    if (!handoff) this.slider.intro(); // arriving by hand-off, the cover must not move
     revealIn(this.titleEl, { delay: delay + 0.1 });
     gsap.fromTo(
       this.thumbImgs,
@@ -289,12 +301,13 @@ export class Home extends Page {
     );
   }
 
-  leave() {
+  leave({ handoff = false } = {}) {
     clearTimeout(this.idleTimer);
     this.el.classList.remove('is-in', 'is-strip');
     const titles = [...this.titles.children].map((t) => revealOut(t, { duration: 0.6 }));
     const thumbs = gsap.to(this.thumbImgs, { y: 0, yPercent: 110, duration: 0.6, stagger: 0.02, overwrite: true });
-    return Promise.all([super.leave(), thumbs, ...titles]);
+    const settled = handoff ? this.slider.settle() : null; // cover at rest before the swap
+    return Promise.all([super.leave(), thumbs, settled, ...titles]);
   }
 
   destroy() {

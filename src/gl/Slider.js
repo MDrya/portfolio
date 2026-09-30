@@ -21,7 +21,6 @@
 
 import gsap from 'gsap';
 import { Plane } from './Plane.js';
-import { images } from '../lib/loader.js';
 import { clamp, lerp, lerpFactor } from '../lib/math.js';
 import { motion, reducedMotion, slider as config } from '../config.js';
 
@@ -48,12 +47,22 @@ export class Slider {
     this.bend = 0;
     this.zoomBoost = 0; // extra zoom for all planes, used by the intro settle
 
-    this.items = projects.map((p, i) => {
-      const plane = new Plane(renderer);
-      const img = images.get(p.cover); // preloaded by the loader
-      if (img) plane.setImage(img);
-      return { plane, x: i === index ? 0 : 2, rect: null };
-    });
+    this.items = projects.map((p, i) => ({
+      plane: new Plane(renderer, { src: p.cover }), // covers are preloaded by the loader
+      x: i === index ? 0 : 2,
+      rect: null,
+    }));
+  }
+
+  /**
+   * Resolves once nothing is moving and the active cover is an exact full-screen cover
+   * fit — the state another page's plane can take over from without a visible change.
+   */
+  settle() {
+    gsap.to(this, { zoomBoost: 0, duration: 0.5, ease: 'o3', overwrite: 'auto' });
+    const tweens = [...gsap.getTweensOf(this), ...this.items.flatMap((item) => gsap.getTweensOf(item))];
+    const timeout = new Promise((resolve) => gsap.delayedCall(2.5, resolve)); // never hang a page change
+    return Promise.race([Promise.all(tweens), timeout]);
   }
 
   get card() {

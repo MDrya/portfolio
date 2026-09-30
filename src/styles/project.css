@@ -25,21 +25,21 @@
   overflow: hidden;
 }
 
-/* temporary until the WebGL plane takes over the hero (phase 8) */
-.p-hero-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
+/* The hero image itself is a WebGL plane behind the DOM (canvas#gl). This is only a
+   legibility gradient; it fades with the page text so the cover never changes abruptly
+   during the Home ↔ Project hand-off. */
 .p-hero::after {
   content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(to left, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 60%);
+  opacity: 0;
   pointer-events: none;
+  transition: opacity 600ms var(--o2);
+}
+
+.page--project.is-in .p-hero::after {
+  opacity: 1;
 }
 
 .p-hero-col {

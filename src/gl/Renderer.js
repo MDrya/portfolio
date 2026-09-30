@@ -4,8 +4,9 @@
 // with the origin at the screen centre. Planes convert DOM rects (top-left origin) with
 // Plane.setRect, which makes DOM ↔ GL alignment exact.
 
-import { Renderer as OGLRenderer, Camera, Transform } from 'ogl';
+import { Renderer as OGLRenderer, Camera, Transform, Texture } from 'ogl';
 import { raf } from '../lib/raf.js';
+import { images, loadImage } from '../lib/loader.js';
 import { gl as glConfig } from '../config.js';
 
 const dpr = () => Math.min(window.devicePixelRatio || 1, glConfig.maxDpr);
@@ -26,6 +27,7 @@ export class Renderer {
     this.camera.position.z = 10;
 
     this.scene = new Transform();
+    this.textures = new Map(); // url → shared texture entry
     this.viewport = { width: 0, height: 0 };
     this.resizeListeners = new Set();
 
@@ -46,6 +48,40 @@ export class Renderer {
     this.viewport = { width, height };
 
     this.resizeListeners.forEach((fn) => fn(this.viewport));
+  }
+
+  /**
+   * One GPU texture per image URL, shared by every plane that shows it. This is what makes
+   * the Home → Project hand-off seamless: the project hero reuses the cover texture the
+   * slider already uploaded. Entries live for the session.
+   * @returns {{ texture: Texture, size: [number, number], ready: boolean }}
+   */
+  texture(url) {
+    let entry = this.textures.get(url);
+    if (entry) return entry;
+
+    const { gl } = this;
+    entry = {
+      texture: new Texture(gl, { wrapS: gl.CLAMP_TO_EDGE, wrapT: gl.CLAMP_TO_EDGE }),
+      size: [1, 1],
+      ready: false,
+      waiting: [],
+    };
+    this.textures.set(url, entry);
+
+    const apply = (img) => {
+      if (!img) return;
+      entry.texture.image = img;
+      entry.size = [img.naturalWidth, img.naturalHeight];
+      entry.ready = true;
+      entry.waiting.splice(0).forEach((fn) => fn(entry));
+    };
+
+    // preloaded images apply synchronously, so a plane is drawable in the frame it's created
+    if (images.has(url)) apply(images.get(url));
+    else loadImage(url).then(apply);
+
+    return entry;
   }
 
   /** Runs fn(viewport) after the renderer has resized. Returns an unsubscribe function. */

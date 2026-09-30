@@ -64,7 +64,19 @@ for (const file of walk(imagesDir).filter((f) => /\.(jpe?g|png)$/i.test(f))) {
   }
 
   let webpSize = null;
-  if (rule.webp !== false) {
+  const existing = file.replace(/\.(jpe?g|png)$/i, '.webp');
+  const upToDate =
+    rule.webp !== false &&
+    fs.existsSync(existing) &&
+    fs.statSync(existing).mtimeMs >= fs.statSync(file).mtimeMs && // made after the source last changed
+    fs.statSync(existing).size < fallbackSize &&
+    fs.statSync(existing).size <= rule.budget;
+
+  if (upToDate) {
+    // nothing changed for this image: keep its WebP byte-for-byte (no churn in git)
+    webpSize = fs.statSync(existing).size;
+    manifest.push(url);
+  } else if (rule.webp !== false) {
     // detailed photos can exceed the budget at the default quality: step down until they fit
     let webp;
     for (const quality of [78, 70, 62, 54]) {

@@ -3,6 +3,7 @@
 
 import gsap from 'gsap';
 import { Router } from './lib/router.js';
+import { revealIn } from './lib/reveal.js';
 import { routes } from './config.js';
 import { getProject } from './data/projects.js';
 import { Home } from './pages/Home.js';
@@ -33,8 +34,15 @@ export class App {
     this.router = new Router({ resolve, onNavigate: (route, info) => this.go(route, info) });
   }
 
+  /** Resolves the current URL and mounts the first page (without entering it). */
   start() {
     return this.router.start();
+  }
+
+  /** First entrance, after the loader: nav + first page. */
+  intro() {
+    revealIn(this.navLinks.map((a) => a.querySelector('.line-in')), { delay: 0.1 });
+    this.page.enter({ delay: 0.15 });
   }
 
   setNav(route) {
@@ -52,10 +60,10 @@ export class App {
     this.setNav(route);
 
     if (initial) {
+      // mounted behind the loader; intro() plays its entrance
       next.mount(this.container);
       document.title = next.title;
       this.page = next;
-      next.enter({ delay: 0.1 });
       return;
     }
 

@@ -23,13 +23,17 @@
     <canvas id="gl" aria-hidden="true"></canvas>
 
     <nav class="nav t-ui" aria-label="Main">
-      <a class="nav-link" href="/" data-route="home">Work</a>
-      <a class="nav-link" href="/about" data-route="about">About</a>
+      <a class="nav-link" href="/" data-route="home"><span class="line"><span class="line-in">Work</span></span></a>
+      <a class="nav-link" href="/about" data-route="about"><span class="line"><span class="line-in">About</span></span></a>
     </nav>
 
     <main id="app"></main>
 
     <div id="sail" aria-hidden="true"></div>
+
+    <div id="loader" role="progressbar" aria-label="Loading" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="loader-num t-sup"><span class="line"><span class="line-in">0%</span></span></div>
+    </div>
 
     <script type="module" src="/src/main.js"></script>
   </body>

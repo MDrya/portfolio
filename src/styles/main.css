@@ -147,6 +147,25 @@ ol {
   pointer-events: none;
 }
 
+#loader {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+}
+
+.loader-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* visible from first paint; only its exit is animated */
+.loader-num .line-in {
+  transform: none;
+}
+
 .noscript {
   position: fixed;
   inset: 0;
@@ -218,6 +237,7 @@ ol {
 }
 
 .nav-link {
+  display: block;
   margin: 0 var(--nav-gap);
   opacity: 0.3;
   transition: opacity var(--d-hover) var(--o2);

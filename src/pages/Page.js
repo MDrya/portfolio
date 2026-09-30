@@ -61,7 +61,10 @@ export class Page {
       top: 0,
     }));
 
-    if (this.scrollable) this.scroll = new VirtualScroll(this.content);
+    if (this.scrollable) {
+      this.scroll = new VirtualScroll(this.content);
+      this.scroll.enabled = false; // input starts on enter()
+    }
 
     this.onMount();
     this.measure();
@@ -116,6 +119,7 @@ export class Page {
 
   enter({ delay = 0 } = {}) {
     this.entered = true;
+    if (this.scroll) this.scroll.enabled = true;
     this.revealVisible(delay, 1); // everything on the first screen, including bottom UI
     this.components.forEach((c) => c.enter?.({ delay: delay + 0.1 }));
   }

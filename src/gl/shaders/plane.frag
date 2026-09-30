@@ -3,7 +3,8 @@ precision highp float;
 uniform sampler2D uTexture;
 uniform vec2 uImageSize; // natural image size, px
 uniform vec2 uPlaneSize; // plane size on screen, px
-uniform float uParallax; // horizontal UV shift inside the frame
+uniform float uZoom;     // 1 = exact cover fit; >1 zooms in around the centre
+uniform float uParallax; // -1..1, horizontal shift as a fraction of the available room
 uniform float uAlpha;
 
 varying vec2 vUv;
@@ -16,12 +17,12 @@ void main() {
     min((uPlaneSize.y / uPlaneSize.x) / (uImageSize.y / uImageSize.x), 1.0)
   );
 
-  vec2 uv = vec2(
-    vUv.x * ratio.x + (1.0 - ratio.x) * 0.5,
-    vUv.y * ratio.y + (1.0 - ratio.y) * 0.5
-  );
+  vec2 uv = (vUv - 0.5) * ratio / uZoom + 0.5;
 
-  uv.x += uParallax;
+  // Inner parallax. `room` is how far the visible window can slide before reaching the
+  // image edge, so |uParallax| <= 1 never shows an edge.
+  float room = (1.0 - ratio.x / uZoom) * 0.5;
+  uv.x += uParallax * room;
 
   gl_FragColor = texture2D(uTexture, uv) * vec4(1.0, 1.0, 1.0, uAlpha);
 }

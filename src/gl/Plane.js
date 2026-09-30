@@ -21,6 +21,7 @@ export class Plane {
       uTexture: { value: this.texture },
       uImageSize: { value: [1, 1] },
       uPlaneSize: { value: [1, 1] },
+      uZoom: { value: 1 },
       uParallax: { value: 0 },
       uVelocity: { value: 0 },
       uAlpha: { value: 0 }, // hidden until an image is set
@@ -42,6 +43,14 @@ export class Plane {
 
   set alpha(v) {
     this.uniforms.uAlpha.value = v;
+  }
+
+  get visible() {
+    return this.mesh.visible;
+  }
+
+  set visible(v) {
+    this.mesh.visible = v;
   }
 
   setImage(image, { alpha = 1 } = {}) {

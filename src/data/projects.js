@@ -4,6 +4,8 @@
 //
 // gallery[].group — visual block: 320px between groups, 40px inside a group.
 // gallery[].bg    — solid colour shown behind the image while it loads.
+// scrim: false    — optional: don't darken this cover on Home (use when the cover
+//                   already leaves a dark area behind the centred title).
 
 const list = [
   {
@@ -14,6 +16,7 @@ const list = [
     role: 'Designer',
     summary: ['A T-shirt that dissects ITB', 'into its parts: rows of', 'faculty codes on the chest,', 'and one object for each', 'field of study on the back.'],
     context: ['ITB', 'Merchandise'],
+    scrim: false, // the cover keeps the Home title on black, so it isn't darkened
     accent: ['#000000', '#1f2a6b'],
     gallery: [
       { group: 1, src: '/images/anatomy-of-itb/01.jpg', w: 1131, h: 1600, bg: '#000000', alt: 'Anatomy of ITB T-shirt, front: two rows of numbers in blue on the chest' },

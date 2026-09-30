@@ -60,6 +60,11 @@
   opacity: 1;
 }
 
+/* covers that already keep the title on a dark area (scrim: false in projects.js) */
+.page--home.is-in.no-scrim::before {
+  opacity: 0;
+}
+
 /* --- crosshairs ---------------------------------------------------------
    The side ones are buttons (previous / next) with a 44px hit area around the 22px
    icon; the centre one is the strip-mode reticle. The wrapper scales / slides (CSS),
@@ -82,6 +87,8 @@
 
 .h-cross-icon {
   will-change: transform;
+  /* a soft dark edge so the white cross stays visible on a white subject */
+  filter: drop-shadow(0 0 1.5px rgba(0, 0, 0, 0.75));
 }
 
 .h-cross--l {

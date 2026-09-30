@@ -310,6 +310,8 @@ export class Home extends Page {
   updateThumbs(index) {
     if (index === this.thumbIndex) return;
     this.thumbIndex = index;
+    // a cover can opt out of the legibility scrim (`scrim: false` in projects.js)
+    this.el.classList.toggle('no-scrim', projects[index].scrim === false);
     this.thumbs.forEach((t, i) => {
       const active = i === index;
       t.classList.toggle('is-active', active);
